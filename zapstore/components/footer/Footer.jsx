@@ -14,8 +14,8 @@ import applestore from "@/assets/footer/applestore.png";
 
 function Footer() {
   return (
-    <footer className="bg-black text-white">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
+    <footer className="bg-black text-white px-10 lg:px-20">
+      <div className="mx-auto max-w-7xl py-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
 
           {/* Column 1 */}
