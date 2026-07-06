@@ -11,7 +11,7 @@ function NavBarComp({isLoggedin}) {
     const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 border-b-gray-400 bg-white shadow-md px-10 lg:px-20">
+    <nav className="sticky top-0 border-b-gray-400 bg-white shadow-md px-10 lg:px-20 z-50">
         <div className="mx-auto max-w-7xl">
             <div className="flex h-16 items-center justify-between">
             {/* Logo */}
