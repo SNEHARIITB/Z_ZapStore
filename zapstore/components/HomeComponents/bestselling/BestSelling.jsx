@@ -1,0 +1,96 @@
+
+import ProductCard from "@/components/productcard/ProductCard.jsx";
+import { useEffect, useState } from "react";
+
+export default function BestSelling({ products }) {
+
+    const [page, setPage] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState(4);
+
+    useEffect(() => {
+        const updateItemsPerPage = () => {
+            let items = 4;
+
+            if (window.innerWidth >= 1024) {
+                items = 4;
+            } else if (window.innerWidth >= 768) {
+                items = 3;
+            } else if (window.innerWidth >= 640) {
+                items = 2;
+            } else {
+                items = 1;
+            }
+
+            setItemsPerPage(items);
+            setPage(0);
+        };
+
+        updateItemsPerPage();
+
+        window.addEventListener("resize", updateItemsPerPage);
+
+        return () => window.removeEventListener("resize", updateItemsPerPage);
+    }, []);
+
+
+    const visibleProducts = products.slice(
+        page * itemsPerPage,
+        page * itemsPerPage + itemsPerPage
+    );
+
+
+
+
+    return (
+        <div className="px-10 lg:px-20 py-10 text-center space-y-10">
+
+            <div>
+                <div className="flex justify-between items-center mb-8">
+
+                    <div className="flex gap-30">
+                        <div>
+                            <p className="text-red-500 text-start font-semibold">This Month</p>
+
+                            <h2 className="text-3xl font-bold mt-2">
+                                Best Selling Products
+                            </h2>
+                        </div>
+
+
+                    </div>
+
+                    <div className=" items-center">
+                        <button className="bg-red-500 text-white text-sm px-5 py-3 rounded">
+                            View All Products
+                        </button>
+                    </div>
+
+                </div>
+
+                {products.length ?
+                    <div
+                        className="flex gap-6 overflow-x-hidden overflow-y-hidden scroll-smooth scrollbar-none"
+                    >
+                        {visibleProducts.map((product) => (
+                            <div
+                                key={product._id}
+                                className="min-w-67.5 shrink-0"
+                            >
+                                <ProductCard product={product} />
+                            </div>
+                        ))}
+                    </div>
+
+                    :
+                    <div>Loading...</div>
+                }
+
+            </div>
+
+
+
+
+
+        </div>
+    )
+}

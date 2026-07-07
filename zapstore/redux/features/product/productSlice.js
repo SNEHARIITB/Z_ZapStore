@@ -9,6 +9,7 @@ export const getProducts = createAsyncThunk(
     try {
       const res = await axios.get(API);
       return res.data;
+      
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }
