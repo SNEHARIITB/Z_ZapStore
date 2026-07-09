@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import { Heart, Eye, Star } from "lucide-react";
+import Link from "next/link";
 
 export default function ProductCard({ product }) {
 
   return (
     <div>
+      
+      <Link href="/product">
+
 
       <div className="relative group bg-gray-100 rounded-md h-62.5 flex justify-center items-center overflow-hidden">
 
@@ -78,6 +82,8 @@ export default function ProductCard({ product }) {
         </div>
 
       </div>
+
+      </Link>
 
     </div>
   );

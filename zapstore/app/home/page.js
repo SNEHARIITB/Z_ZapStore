@@ -13,7 +13,7 @@ import React from 'react'
 
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getProducts } from "@/redux/features/product/productSlice.js";
+import { getProducts } from "@/redux/slices/productSlice.js";
 import BrowseByCatrgory from '@/components/HomeComponents/browsebycat/BrowseByCategory';
 import BestSelling from '@/components/HomeComponents/bestselling/BestSelling';
 import ExploreOurProducts from '@/components/HomeComponents/exploreproducts/ExploreOverProducts';

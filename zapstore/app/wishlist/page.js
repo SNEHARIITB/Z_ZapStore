@@ -5,7 +5,7 @@ import ExploreOurProducts from '@/components/HomeComponents/exploreproducts/Expl
 import NavBarComp from '@/components/navbar/NavBarComp'
 import ProductCard from '@/components/productcard/ProductCard';
 import Saleoffer from '@/components/saleoffer/Saleoffer'
-import { getProducts } from '@/redux/features/product/productSlice';
+import { getProducts } from '@/redux/slices/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import React, { useEffect } from 'react'
 

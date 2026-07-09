@@ -3,7 +3,7 @@
 import Footer from '@/components/footer/Footer'
 import NavBarComp from '@/components/navbar/NavBarComp'
 import Saleoffer from '@/components/saleoffer/Saleoffer'
-import { getProducts } from '@/redux/features/product/productSlice';
+import { getProducts } from '@/redux/slices/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import Link from 'next/link';
 import React, { useEffect } from 'react'

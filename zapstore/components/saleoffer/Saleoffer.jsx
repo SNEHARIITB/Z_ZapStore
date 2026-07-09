@@ -1,9 +1,10 @@
+"use client"
 import React from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function Saleoffer() {
   return (
-    <div className="bg-black text-white px-10 lg:px-20 py-2">
+    <div className="bg-black text-white px-5 md:px-10 lg:px-20 py-2">
       <div className="flex items-center justify-between">
 
         
@@ -11,7 +12,7 @@ export default function Saleoffer() {
 
         {/* Sale Offer */}
         <div className="flex flex-1 items-center justify-center gap-2">
-          <p className="text-xs lg:text-sm text-center">
+          <p className="text-xs md:text-sm lg:text-md text-center">
             Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
           </p>
 
