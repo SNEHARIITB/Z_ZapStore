@@ -47,11 +47,11 @@ export default function BestSelling({ products }) {
             <div>
                 <div className="flex justify-between items-center mb-8">
 
-                    <div className="flex gap-30">
+                    <div className="flex gap-30 text-start items-start">
                         <div>
                             <p className="text-red-500 text-start font-semibold">This Month</p>
 
-                            <h2 className="text-3xl font-bold mt-2">
+                            <h2 className="text-2xl sm:text-3xl font-bold mt-2">
                                 Best Selling Products
                             </h2>
                         </div>
@@ -60,7 +60,7 @@ export default function BestSelling({ products }) {
                     </div>
 
                     <div className=" items-center">
-                        <button className="bg-red-500 text-white text-sm px-5 py-3 rounded">
+                        <button className="bg-red-500 text-white text-sm px-3 py-2 md:px-5 md:py-3 rounded">
                             View All Products
                         </button>
                     </div>
@@ -69,15 +69,13 @@ export default function BestSelling({ products }) {
 
                 {products.length ?
                     <div
-                        className="flex gap-6 overflow-x-hidden overflow-y-hidden scroll-smooth scrollbar-none"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-x-hidden overflow-y-hidden scroll-smooth scrollbar-none"
                     >
                         {visibleProducts.map((product) => (
-                            <div
+                            <ProductCard
                                 key={product._id}
-                                className="min-w-67.5 shrink-0"
-                            >
-                                <ProductCard product={product} />
-                            </div>
+                                product={product}
+                            />
                         ))}
                     </div>
 

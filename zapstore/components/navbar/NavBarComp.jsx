@@ -48,12 +48,12 @@ function NavBarComp({ currentUser }) {
             <div className="">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <h1 className="text-2xl font-bold text-black-600 hover:text-blue-600">
+                    <h1 className="text-xl lg:text-2xl font-bold text-black-600 hover:text-blue-600">
                         {currentUser ? currentUser?.name : "ZapStore"}
                     </h1>
 
                     {/* Desktop Menu */}
-                    <div className="hidden items-center gap-8 md:flex">
+                    <div className="hidden items-center gap-6 lg:gap-8 md:flex md:mx-5">
                         <Link href="/home" className="hover:text-blue-600">
                             Home
                         </Link>
@@ -68,7 +68,7 @@ function NavBarComp({ currentUser }) {
 
 
                         <Link href="/signup" className="hover:text-blue-600">
-                            Sign Up
+                            SignUp
                         </Link>
                     </div>
 

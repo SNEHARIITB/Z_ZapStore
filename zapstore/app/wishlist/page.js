@@ -24,7 +24,7 @@ export default function page() {
     );
 
     useEffect(() => {
-        console.log(wishedProducts);
+        //console.log(wishedProducts);
     }, [wishedProducts]);
 
     useEffect(() => {

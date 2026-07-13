@@ -63,13 +63,13 @@ export default function BrowseByCatrgory() {
             <div className="py-10">
                 <div className="flex justify-between items-center mb-8">
 
-                    <div className="flex gap-30">
+                    <div className="flex gap-30 items-start">
                         <div>
                             <p className="text-red-500 text-start font-semibold">
                                 Categories
                             </p>
 
-                            <h2 className="text-3xl font-bold mt-2">
+                            <h2 className="text-2xl sm:text-3xl font-bold mt-2">
                                 Browse By Category
                             </h2>
                         </div>

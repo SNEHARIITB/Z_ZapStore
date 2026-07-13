@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function ProfilePage() {
+export default function ProfilePage({currentUser}) {
   return (
     <div className="px-5 lg:px-20 py-10">
 
@@ -14,7 +14,7 @@ export default function ProfilePage() {
         </p>
 
         <p className="text-sm">
-          Welcome! <span className="text-red-500 font-medium">Md Rimel</span>
+          Welcome!  <span className="text-red-500 font-medium">{currentUser?.name}</span>
         </p>
       </div>
 
