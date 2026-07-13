@@ -1,22 +1,55 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Menu, X, Search, Heart, ShoppingCart, User } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { Menu, X, Search, Heart, ShoppingCart, User, Divide } from "lucide-react";
 import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { login, logout } from '@/redux/slices/authSlice';
+import { useRouter } from "next/navigation";
 
 
-function NavBarComp({ isLoggedin }) {
+
+
+function NavBarComp({ currentUser }) {
+
+    const router = useRouter();
+
+    const dispatch = useAppDispatch();
+    // const { currentUser } = useAppSelector((state) => state.auth);
+
+
+
 
 
     const [isOpen, setIsOpen] = useState(false);
+    const [accBtn, setAccBtn] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem("currentUser");
+
+        dispatch(logout());
+
+        router.replace("/login");
+    };
+
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (user) {
+            dispatch(login(user));
+        }
+
+    }, [dispatch]);
+
 
     return (
         <nav className="sticky top-0 border-b-gray-400 bg-white shadow-md px-5 md:px-10 lg:px-20 z-50">
-            <div className="mx-auto max-w-7xl">
+            <div className="">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <h1 className="text-2xl font-bold text-black-600 hover:text-blue-600">
-                        ZapStore
+                        {currentUser ? currentUser?.name : "ZapStore"}
                     </h1>
 
                     {/* Desktop Menu */}
@@ -54,31 +87,100 @@ function NavBarComp({ isLoggedin }) {
                             />
                         </div>
 
-                        {isLoggedin && (
+                        {currentUser && (
                             <div className="flex gap-3">
 
                                 <Link href="/wishlist" >
-                                    <div className="p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200">
+                                    <div className="p-2 relative rounded-full hover:bg-red-500 hover:text-white transition duration-200">
                                         <Heart
                                             size={22}
                                         />
+                                        {currentUser.wishlist.length > 0 && 
+                                        <span
+                                            className="
+                                                absolute
+                                                -top-1.5
+                                                -right-2
+                                                bg-red-500
+                                                text-white
+                                                text-xs
+                                                w-5
+                                                h-5
+                                                rounded-full
+                                                flex
+                                                items-center
+                                                justify-center
+                                                hover:bg-black
+                                                hover:text-white 
+                                                transition 
+                                                duration-200
+                                            "
+                                        >
+                                            {currentUser.wishlist.length}
+                                        </span>
+                                        }
                                     </div>
                                 </Link>
 
                                 <Link href="/cart" >
-                                    <div className="p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200">
+                                    <div className="p-2 rounded-full relative hover:bg-red-500 hover:text-white transition duration-200">
                                         <ShoppingCart
                                             size={22}
                                         />
+                                        {currentUser.cart.length > 0 && 
+                                        <span
+                                            className="
+                                                absolute
+                                                -top-1.5
+                                                -right-2
+                                                bg-red-500
+                                                text-white
+                                                text-xs
+                                                w-5
+                                                h-5
+                                                rounded-full
+                                                flex
+                                                items-center
+                                                justify-center
+                                                hover:bg-black
+                                                hover:text-white 
+                                                transition 
+                                                duration-200
+                                            "
+                                        >
+                                            {currentUser.cart.length}
+                                        </span>
+                                        }
                                     </div>
 
                                 </Link>
 
-                                <Link href="/account">
-                                    <div className="p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200">
+                                <div className="relative">
+                                    <button
+                                        onClick={() => setAccBtn(!accBtn)}
+                                        className="p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200"
+                                    >
                                         <User size={22} />
-                                    </div>
-                                </Link>
+                                    </button>
+
+                                    {accBtn && (
+                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+                                            <Link
+                                                href="/account"
+                                                className="block px-4 py-3 hover:bg-gray-100"
+                                            >
+                                                My Account
+                                            </Link>
+
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full text-left px-4 py-3 hover:bg-gray-100"
+                                            >
+                                                Logout
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
 
                             </div>
                         )}

@@ -7,12 +7,15 @@ import { getProducts } from '@/redux/slices/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import Link from 'next/link';
 import React, { useEffect } from 'react'
+import { login } from "@/redux/slices/authSlice";
 import { IoSendOutline } from 'react-icons/io5';
 
 export default function page() {
 
+    const { currentUser } = useAppSelector((state) => state.auth);
 
 
+    const cartedProducts = currentUser?.cart || [];
 
     const dispatch = useAppDispatch();
 
@@ -21,12 +24,51 @@ export default function page() {
             return state.product
         }
     );
+    useEffect(() => {
+        console.log(cartedProducts);
+    }, [cartedProducts, cartedProducts.quantity]);
 
     useEffect(() => {
         dispatch(getProducts());
     }, [dispatch]);
 
-    const cartedProducts = products;
+
+    const handleQuantityChange = (id, quantity) => {
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const updatedUsers = users.map((user) => {
+
+            if (user.email === currentUser.email) {
+
+                const updatedCart = user.cart.map((item) =>
+                    item._id === id
+                        ? { ...item, quantity }
+                        : item
+                );
+
+                return {
+                    ...user,
+                    cart: updatedCart,
+                };
+            }
+
+            return user;
+        });
+
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+        const updatedCurrentUser = updatedUsers.find(
+            (u) => u.email === currentUser.email
+        );
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(updatedCurrentUser)
+        );
+
+        dispatch(login(updatedCurrentUser));
+    }
 
     const subtotal = cartedProducts.reduce(
         (sum, item) => sum + item.pPrice * (item.quantity || 1),
@@ -38,7 +80,7 @@ export default function page() {
         <div>
             <Saleoffer />
 
-            <NavBarComp />
+            <NavBarComp currentUser={currentUser} />
 
             <div className="px-10 lg:px-20 py-10">
                 Home / Cart
@@ -81,11 +123,17 @@ export default function page() {
 
                                     <td className="px-8 py-6">
                                         <select
-                                            defaultValue={product.quantity || 1}
+
                                             className="border rounded-md px-3 py-2"
+                                            value={product.quantity}
+                                            onChange={(e) =>
+                                                handleQuantityChange(product._id, Number(e.target.value))
+                                            }
                                         >
                                             {[...Array(10)].map((_, i) => (
-                                                <option key={i}>{String(i + 1).padStart(2, "0")}</option>
+                                                <option key={i}
+                                                    value={i + 1}
+                                                >{String(i + 1).padStart(2, "0")}</option>
                                             ))}
                                         </select>
                                     </td>
@@ -105,7 +153,9 @@ export default function page() {
                         Return To Shop
                     </button>
 
-                    <button className="border px-8 py-3 rounded hover:bg-gray-100">
+                    <button className="border px-8 py-3 rounded hover:bg-gray-100"
+                    // onClick={handleTotal}
+                    >
                         Update Cart
                     </button>
                 </div>
@@ -162,5 +212,3 @@ export default function page() {
         </div>
     )
 }
-
-page

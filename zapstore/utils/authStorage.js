@@ -10,5 +10,5 @@ export const getCurrentUser = () =>
 export const saveCurrentUser = (user) =>
   localStorage.setItem("currentUser", JSON.stringify(user));
 
-export const logout = () =>
-  localStorage.removeItem("currentUser");
+// export const logout = () =>
+//   localStorage.removeItem("currentUser");

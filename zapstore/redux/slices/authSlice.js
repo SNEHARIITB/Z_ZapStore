@@ -1,4 +1,4 @@
-import { logout } from "@/utils/authStorage";
+// import { logout } from "@/utils/authStorage";
 import { createSlice } from "@reduxjs/toolkit";
 
 
@@ -16,13 +16,13 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
         },
 
-        // logout: (state) => {
-        //     state.currentUser = null;
-        //     state.isAuthenticated = false;
-        // },
+        logout: (state) => {
+            state.currentUser = null;
+            state.isAuthenticated = false;
+        },
     },
 });
 
-export const {login} = authSlice.actions;
+export const {login, logout} = authSlice.actions;
 
 export default authSlice.reducer;

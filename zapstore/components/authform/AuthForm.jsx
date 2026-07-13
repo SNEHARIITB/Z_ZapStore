@@ -33,13 +33,20 @@ export default function AuthForm({ type = "login" }) {
             return;
         }
 
-        users.push(formData);
+        const newUser = {
+            ...formData,
+            wishlist: [],
+            cart: [],
+            orders: [],
+        };
+
+        users.push(newUser);
 
         localStorage.setItem("users", JSON.stringify(users));
 
         localStorage.setItem("currentUser", JSON.stringify(formData))
 
-        dispatch(login(formData));
+        dispatch(login(newUser));
 
         alert("Account Created Sucessfully")
 
@@ -50,12 +57,12 @@ export default function AuthForm({ type = "login" }) {
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
         const currentuser = users.find(
-            (user) => 
+            (user) =>
                 user.email === formData.email &&
                 user.password === formData.password
         );
 
-        if(!currentuser){
+        if (!currentuser) {
             alert("Invalid Credentials");
             return;
         }

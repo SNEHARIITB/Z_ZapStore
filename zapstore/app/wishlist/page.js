@@ -7,9 +7,13 @@ import ProductCard from '@/components/productcard/ProductCard';
 import Saleoffer from '@/components/saleoffer/Saleoffer'
 import { getProducts } from '@/redux/slices/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function page() {
+
+    const { currentUser } = useAppSelector((state) => state.auth);
+
+    const wishedProducts = currentUser?.wishlist || [];
 
     const dispatch = useAppDispatch();
 
@@ -20,17 +24,20 @@ export default function page() {
     );
 
     useEffect(() => {
+        console.log(wishedProducts);
+    }, [wishedProducts]);
+
+    useEffect(() => {
         dispatch(getProducts());
     }, [dispatch]);
 
-    const visibleProducts = products;
 
     return (
         <div>
 
             <Saleoffer />
 
-            <NavBarComp />
+            <NavBarComp currentUser={currentUser} />
 
             <section className="px-5 sm:px-8 lg:px-20 py-10 mb-10">
 
@@ -38,7 +45,7 @@ export default function page() {
 
                     <div>
                         <h2 className="text-xl sm:text-md mt-2">
-                            Wishlist(5)
+                            Wishlist({wishedProducts.length})
                         </h2>
                     </div>
 
@@ -58,7 +65,7 @@ export default function page() {
                 {products.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-                        {visibleProducts.map((product) => (
+                        {wishedProducts.map((product) => (
                             <ProductCard
                                 key={product._id}
                                 product={product}
@@ -100,7 +107,7 @@ export default function page() {
                 {products.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-                        {visibleProducts.map((product) => (
+                        {products.map((product) => (
                             <ProductCard
                                 key={product._id}
                                 product={product}
