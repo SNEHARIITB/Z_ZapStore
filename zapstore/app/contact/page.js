@@ -3,12 +3,14 @@
 import Footer from "@/components/footer/Footer";
 import NavBarComp from "@/components/navbar/NavBarComp";
 import Saleoffer from "@/components/saleoffer/Saleoffer";
+import { useAppSelector } from "@/redux/hooks";
 import {
   FiPhone,
   FiMail,
 } from "react-icons/fi";
 
 export default function Contact() {
+  const { currentUser } = useAppSelector((state) => state.auth);
   return (
     <div >
 
