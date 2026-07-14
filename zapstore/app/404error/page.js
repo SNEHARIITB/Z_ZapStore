@@ -9,7 +9,7 @@ export default function page() {
         <div>
             <Saleoffer />
 
-            <NavBarComp />
+            <NavBarComp currentUser={currentUser} />
 
             <div className="px-5 lg:px-20 py-10">
                 <div>

@@ -135,23 +135,23 @@ export default function page() {
                     {/* Left Sidebar */}
                     <div className="lg:col-span-1">
                         <div className="space-y-3.5">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between hover:underline">
                                 <p>Woman's Fashion</p>
                                 <ChevronRight size={16} />
                             </div>
 
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between hover:underline">
                                 <p>Men's Fashion</p>
                                 <ChevronRight size={16} />
                             </div>
 
-                            <p>Electronics</p>
-                            <p>Home & Lifestyle</p>
-                            <p>Medicine</p>
-                            <p>Sports & Outdoor</p>
-                            <p>Baby's & Toys</p>
-                            <p>Groceries & Pets</p>
-                            <p>Health & Beauty</p>
+                            <p className="hover:underline">Electronics</p>
+                            <p className="hover:underline">Home & Lifestyle</p>
+                            <p className="hover:underline">Medicine</p>
+                            <p className="hover:underline">Sports & Outdoor</p>
+                            <p className="hover:underline">Baby's & Toys</p>
+                            <p className="hover:underline">Groceries & Pets</p>
+                            <p className="hover:underline">Health & Beauty</p>
                         </div>
                     </div>
 

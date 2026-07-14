@@ -10,14 +10,12 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect } from 'react'
 
 export default function page() {
+        const { currentUser } = useAppSelector((state) => state.auth);
+    
+    
 
         const dispatch = useAppDispatch();
     
-        const { products, loading } = useAppSelector(
-            (state) => {
-                return state.product
-            }
-        );
     
         useEffect(() => {
             dispatch(getProducts());
@@ -27,7 +25,7 @@ export default function page() {
     return (
         <div>
             <Saleoffer />
-            <NavBarComp />
+            <NavBarComp currentUser={currentUser}  />
 
 
 
@@ -40,7 +38,7 @@ export default function page() {
             <div className="px-10 lg:px-20 py-10  lg:flex gap-20 justify-between">
                 <BillingForm />
 
-                <OrderSummary products={products} />
+                <OrderSummary  />
             </div>
 
 

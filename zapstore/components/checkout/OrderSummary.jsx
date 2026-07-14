@@ -1,12 +1,19 @@
 "use client";
 
+import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 
-export default function OrderSummary({ products }) {
+export default function OrderSummary() {
 
-    const cartedProducts = products;
+
+  const { currentUser } = useAppSelector((state) => state.auth);
+
+
+  const cartedProducts = currentUser?.cart || [];
+
+
   const subtotal = cartedProducts.reduce(
-    (sum, item) => sum + item.pPrice * (item.quantity || 1),
+    (sum, item) => sum + item.price * (item.quantity || 1),
     0
   );
 
@@ -16,23 +23,23 @@ export default function OrderSummary({ products }) {
       <div className="space-y-6">
         {cartedProducts.map((product) => (
           <div
-            key={product._id}
+            key={product.id}
             className="flex items-center justify-between gap-4"
           >
             <div className="flex items-center gap-4">
               <img
-                src={product.pImg}
-                alt={product.pName}
+                src={product.image}
+                alt={product.name}
                 className="w-14 h-14 object-contain"
               />
 
               <span className="text-sm md:text-base">
-                {product.pName}
+                {product.name}
               </span>
             </div>
 
             <span className="font-medium">
-              ${(product.pPrice * (product.quantity || 1)).toFixed(2)}
+              ${(product.price * (product.quantity || 1)).toFixed(2)}
             </span>
           </div>
         ))}
@@ -70,17 +77,17 @@ export default function OrderSummary({ products }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <img
+            {/* <img
               src="/payments/bkash.png"
               alt="Bkash"
               className="h-5"
-            />
+            /> */}
             <img
               src="/payments/visa.png"
               alt="Visa"
               className="h-5"
             />
-            <img
+            {/* <img
               src="/payments/mastercard.png"
               alt="MasterCard"
               className="h-5"
@@ -89,8 +96,8 @@ export default function OrderSummary({ products }) {
               src="/payments/nagad.png"
               alt="Nagad"
               className="h-5"
-            />
-          </div>
+            />*/}
+          </div> 
         </label>
 
         <label className="flex items-center gap-3 cursor-pointer">

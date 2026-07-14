@@ -1,17 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API = "https://p-9x7e.onrender.com/products/products";
+const API = "https://fakestoreapi.com/products";
 
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (_, thunkAPI) => {
     try {
-      const res = await axios.get(API);
-      return res.data;
-      
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+      const response = await axios.get(API);
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data || error.message
+      );
     }
   }
 );
@@ -29,14 +31,14 @@ const productSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-
       .addCase(getProducts.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
 
       .addCase(getProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.data;
+        state.products = action.payload;
       })
 
       .addCase(getProducts.rejected, (state, action) => {

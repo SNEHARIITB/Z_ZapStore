@@ -18,7 +18,8 @@ function NavBarComp({ currentUser }) {
     // const { currentUser } = useAppSelector((state) => state.auth);
 
 
-
+    const wishlistCount = currentUser?.wishlist?.length || 0;
+    const cartCount = currentUser?.cart?.length || 0;
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -67,9 +68,21 @@ function NavBarComp({ currentUser }) {
                         </Link>
 
 
-                        <Link href="/signup" className="hover:text-blue-600">
-                            SignUp
-                        </Link>
+                        {currentUser ? (
+                            <button
+                                onClick={handleLogout}
+                                className="hover:text-red-600"
+                            >
+                                Logout
+                            </button>
+                        ) : (
+                            <Link
+                                href="/signup"
+                                className="hover:text-blue-600"
+                            >
+                                Sign Up
+                            </Link>
+                        )}
                     </div>
 
                     {/* Search */}
@@ -95,9 +108,9 @@ function NavBarComp({ currentUser }) {
                                         <Heart
                                             size={22}
                                         />
-                                        {currentUser.wishlist.length > 0 && 
-                                        <span
-                                            className="
+                                        {wishlistCount > 0 &&
+                                            <span
+                                                className="
                                                 absolute
                                                 -top-1.5
                                                 -right-2
@@ -115,9 +128,9 @@ function NavBarComp({ currentUser }) {
                                                 transition 
                                                 duration-200
                                             "
-                                        >
-                                            {currentUser.wishlist.length}
-                                        </span>
+                                            >
+                                                {wishlistCount}
+                                            </span>
                                         }
                                     </div>
                                 </Link>
@@ -127,9 +140,9 @@ function NavBarComp({ currentUser }) {
                                         <ShoppingCart
                                             size={22}
                                         />
-                                        {currentUser.cart.length > 0 && 
-                                        <span
-                                            className="
+                                        {cartCount > 0 &&
+                                            <span
+                                                className="
                                                 absolute
                                                 -top-1.5
                                                 -right-2
@@ -147,9 +160,9 @@ function NavBarComp({ currentUser }) {
                                                 transition 
                                                 duration-200
                                             "
-                                        >
-                                            {currentUser.cart.length}
-                                        </span>
+                                            >
+                                                {cartCount}
+                                            </span>
                                         }
                                     </div>
 

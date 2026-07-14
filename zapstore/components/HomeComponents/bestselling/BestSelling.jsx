@@ -73,7 +73,7 @@ export default function BestSelling({ products }) {
                     >
                         {visibleProducts.map((product) => (
                             <ProductCard
-                                key={product._id}
+                                key={product.id}
                                 product={product}
                             />
                         ))}

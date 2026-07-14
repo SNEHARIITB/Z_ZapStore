@@ -67,7 +67,7 @@ export default function page() {
 
                         {wishedProducts.map((product) => (
                             <ProductCard
-                                key={product._id}
+                                key={product.id}
                                 product={product}
                             />
                         ))}
@@ -106,14 +106,12 @@ export default function page() {
                 {/* Products */}
                 {products.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-                        {products.map((product) => (
+                        {products.slice(0, 8).map((product) => (
                             <ProductCard
-                                key={product._id}
+                                key={product.id}
                                 product={product}
                             />
                         ))}
-
                     </div>
                 ) : (
                     <div className="py-20 text-center text-gray-500">

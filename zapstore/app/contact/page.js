@@ -14,7 +14,7 @@ export default function Contact() {
 
       <Saleoffer />
 
-      <NavBarComp />
+      <NavBarComp currentUser={currentUser}  />
 
       <div className="px-5 lg:px-20 py-10">
         {/* Breadcrumb */}

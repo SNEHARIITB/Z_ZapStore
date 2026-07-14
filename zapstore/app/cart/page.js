@@ -9,6 +9,7 @@ import Link from 'next/link';
 import React, { useEffect } from 'react'
 import { login } from "@/redux/slices/authSlice";
 import { IoSendOutline } from 'react-icons/io5';
+import { Trash2 } from 'lucide-react';
 
 export default function page() {
 
@@ -19,14 +20,14 @@ export default function page() {
 
     const dispatch = useAppDispatch();
 
-    const { products, loading } = useAppSelector(
-        (state) => {
-            return state.product
-        }
-    );
-    useEffect(() => {
-        console.log(cartedProducts);
-    }, [cartedProducts, cartedProducts.quantity]);
+    // const { products, loading } = useAppSelector(
+    //     (state) => {
+    //         return state.product
+    //     }
+    // );
+    // useEffect(() => {
+    //     console.log(cartedProducts);
+    // }, [cartedProducts, cartedProducts.quantity]);
 
     useEffect(() => {
         dispatch(getProducts());
@@ -42,7 +43,7 @@ export default function page() {
             if (user.email === currentUser.email) {
 
                 const updatedCart = user.cart.map((item) =>
-                    item._id === id
+                    item.id === id
                         ? { ...item, quantity }
                         : item
                 );
@@ -71,9 +72,44 @@ export default function page() {
     }
 
     const subtotal = cartedProducts.reduce(
-        (sum, item) => sum + item.pPrice * (item.quantity || 1),
+        (sum, item) => sum + item.price * (item.quantity || 1),
         0
     );
+
+    const handleDelete = (id) => {
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const updatedUsers = users.map((user) => {
+
+            if (user.email === currentUser.email) {
+
+                const updatedCart = (user.cart || []).filter(
+                    (item) => item.id !== id
+                );
+
+                return {
+                    ...user,
+                    cart: updatedCart,
+                };
+            }
+
+            return user;
+        });
+
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+        const updatedCurrentUser = updatedUsers.find(
+            (u) => u.email === currentUser.email
+        );
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(updatedCurrentUser)
+        );
+
+        dispatch(login(updatedCurrentUser));
+    };
 
     const total = subtotal;
     return (
@@ -97,29 +133,30 @@ export default function page() {
                                 <th className="text-left px-8 py-6 font-medium">Price</th>
                                 <th className="text-left px-8 py-6 font-medium">Quantity</th>
                                 <th className="text-right px-8 py-6 font-medium">Subtotal</th>
+                                <th className="text-center px-8 py-6 font-medium">Delete</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {cartedProducts?.map((product) => (
-                                <tr key={product._id} className="bg-white shadow-md">
+                                <tr key={product.id} className="bg-white shadow-md">
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-4">
-                                            <button className="text-red-500 text-xl">✕</button>
+                                            
 
                                             <img
-                                                src={product.pImg}
-                                                alt={product.pName}
+                                                src={product.image}
+                                                alt={product.name}
                                                 className="w-16 h-16 object-contain"
                                             />
 
                                             <span className="font-medium whitespace-nowrap">
-                                                {product.pName}
+                                                {product.name}
                                             </span>
                                         </div>
                                     </td>
 
-                                    <td className="px-8 py-6">${product.pPrice}</td>
+                                    <td className="px-8 py-6">${product.price}</td>
 
                                     <td className="px-8 py-6">
                                         <select
@@ -127,7 +164,7 @@ export default function page() {
                                             className="border rounded-md px-3 py-2"
                                             value={product.quantity}
                                             onChange={(e) =>
-                                                handleQuantityChange(product._id, Number(e.target.value))
+                                                handleQuantityChange(product.id, Number(e.target.value))
                                             }
                                         >
                                             {[...Array(10)].map((_, i) => (
@@ -139,7 +176,15 @@ export default function page() {
                                     </td>
 
                                     <td className="px-8 py-6 text-right">
-                                        ${(product.pPrice * (product.quantity || 1)).toFixed(2)}
+                                        ${(product.price * (product.quantity || 1)).toFixed(2)}
+                                    </td>
+                                    <td className="px-8 py-6 text-center">
+                                        <button
+                                            onClick={() => handleDelete(product.id)}
+                                            className="text-red-500 hover:text-red-700 text-2xl font-bold"
+                                        >
+                                            <Trash2 />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
