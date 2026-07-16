@@ -1,46 +1,49 @@
 "use client";
 
 import Image from "next/image";
-import { Heart, Eye, Star } from "lucide-react";
+import { Heart, Eye, Star, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { login } from "@/redux/slices/authSlice";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ product }) {
     const { currentUser } = useAppSelector((state) => state.auth);
 
     const dispatch = useAppDispatch();
+    const wishlist = currentUser?.wishlist ?? [];
+    const isWishlisted = currentUser?.wishlist?.some(
+        (item) => item.id === product.id
+    );
 
     const handleWishlist = () => {
         if (!currentUser) {
-            alert("Please login first");
+            toast.error("Please login first");
             return;
         }
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
         const updatedUsers = users.map((user) => {
-            if (user.email === currentUser.email) {
-                const wishlist = user.wishlist || [];
+            if (user.email !== currentUser.email) return user;
 
-                const exists = wishlist.find(
-                    (item) => item.id === product.id
-                );
+            const wishlist = user.wishlist || [];
 
-                if (exists) {
-                    alert("Product already in wishlist");
-                } else {
-                    wishlist.push(product);
-                    alert("Added to Wishlist");
-                }
+            const exists = wishlist.some(
+                (item) => item.id === product.id
+            );
 
-                return {
-                    ...user,
-                    wishlist,
-                };
+            if (exists) {
+                toast("Product already in Wishlist");
+                return user;
             }
 
-            return user;
+            toast.success("Added to Wishlist");
+
+            return {
+                ...user,
+                wishlist: [...wishlist, product],
+            };
         });
 
         localStorage.setItem("users", JSON.stringify(updatedUsers));
@@ -48,7 +51,10 @@ export default function ProductCard({ product }) {
         const updatedCurrentUser = updatedUsers.find(
             (u) => u.email === currentUser.email
         );
-
+        if (!updatedCurrentUser) {
+            toast.error("User not found.");
+            return;
+        }
         localStorage.setItem(
             "currentUser",
             JSON.stringify(updatedCurrentUser)
@@ -57,9 +63,48 @@ export default function ProductCard({ product }) {
         dispatch(login(updatedCurrentUser));
     };
 
+    const handleRemoveWishlist = () => {
+        if (!currentUser) {
+            toast.error("Please login first");
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const updatedUsers = users.map((user) => {
+            if (user.email !== currentUser.email) return user;
+
+            return {
+                ...user,
+                wishlist: (user.wishlist || []).filter(
+                    (item) => item.id !== product.id
+                ),
+            };
+        });
+
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+        const updatedCurrentUser = updatedUsers.find(
+            (u) => u.email === currentUser.email
+        );
+
+        if (!updatedCurrentUser) {
+            toast.error("User not found.");
+            return;
+        }
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(updatedCurrentUser)
+        );
+
+        dispatch(login(updatedCurrentUser));
+
+        toast.success("Product removed from Wishlist");
+    };
     const handleCart = () => {
         if (!currentUser) {
-            alert("Please login first");
+            toast.error("Please login first");
             return;
         }
 
@@ -75,14 +120,14 @@ export default function ProductCard({ product }) {
 
                 if (exists) {
                     exists.quantity += 1;
-                    alert("Quantity Increased");
+                    toast.success("Quantity Increased");
                 } else {
                     cart.push({
                         ...product,
                         quantity: 1,
                     });
 
-                    alert("Added to Cart");
+                    toast.success("Added to Cart");
                 }
 
                 return {
@@ -117,12 +162,21 @@ export default function ProductCard({ product }) {
                 </span>
 
                 <div className="absolute right-3 top-3 flex flex-col gap-2 z-10">
-                    <button
-                        onClick={handleWishlist}
-                        className="bg-white p-2 rounded-full shadow hover:bg-red-500 hover:text-white transition"
-                    >
-                        <Heart size={18} />
-                    </button>
+                    {isWishlisted ? (
+                        <button
+                            onClick={handleRemoveWishlist}
+                            className="bg-white p-2 rounded-full shadow hover:bg-red-500 hover:text-white transition"
+                        >
+                            <Trash2 size={18} />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={handleWishlist}
+                            className="bg-white p-2 rounded-full shadow hover:bg-red-500 hover:text-white transition"
+                        >
+                            <Heart size={18} />
+                        </button>
+                    )}
                     <Link href={`/product/${product.id}`}>
                         <button className="bg-white p-2 rounded-full shadow hover:bg-red-500">
                             <Eye size={18} />

@@ -142,7 +142,7 @@ export default function page() {
                                 <tr key={product.id} className="bg-white shadow-md">
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-4">
-                                            
+
 
                                             <img
                                                 src={product.image}
@@ -193,16 +193,18 @@ export default function page() {
                 </div>
 
                 {/* Buttons */}
-                <div className="mt-8 flex flex-col md:flex-row justify-between gap-4">
-                    <button className="border px-8 py-3 rounded hover:bg-gray-100">
-                        Return To Shop
-                    </button>
+                <div className="mt-8 flex flex-col md:flex-row justify-end gap-4">
+                    <Link href="/home">
+                        <button className="border px-8 py-3 rounded hover:bg-gray-100 hover:text-red-500">
+                            Return To Shop
+                        </button>
+                    </Link>
 
-                    <button className="border px-8 py-3 rounded hover:bg-gray-100"
+                    {/* <button className="border px-8 py-3 rounded hover:bg-gray-100"
                     // onClick={handleTotal}
                     >
                         Update Cart
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* Coupon + Cart Total */}

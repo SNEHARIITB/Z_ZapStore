@@ -33,23 +33,23 @@ export default function BrowseByCatrgory() {
             name: "SmartWatch",
             icon: Watch,
         },
-                {
+        {
             name: "Jewellery",
             icon: Gem,
         },
-                {
+        {
             name: "Gaming",
             icon: Gamepad2,
         },
-                {
+        {
             name: "Headphones",
             icon: Headset,
         },
-                {
+        {
             name: "Camera",
             icon: Camera,
         },
-                {
+        {
             name: "Books",
             icon: BookOpen,
         },
@@ -58,16 +58,19 @@ export default function BrowseByCatrgory() {
 
 
     return (
-        <div className="px-10 lg:px-20 py-10 text-center space-y-10 border-b-amber-700">
+        <div className="px-5 sm:px-8 lg:px-20 py-10 text-center space-y-10 border-b-amber-700">
 
             <div className="py-10">
                 <div className="flex justify-between items-center mb-8">
 
-                    <div className="flex gap-30 items-start">
+                    <div className="flex gap-30 text-start items-start">
                         <div>
-                            <p className="text-red-500 text-start font-semibold">
-                                Categories
-                            </p>
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-3 sm:w-5 h-10 bg-red-500 rounded"></div>
+                                <p className="text-red-500 text-start font-semibold">
+                                    Categories
+                                </p>
+                            </div>
 
                             <h2 className="text-2xl sm:text-3xl font-bold mt-2">
                                 Browse By Category

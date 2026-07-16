@@ -92,23 +92,26 @@ export default function FlashSale({ products = [] }) {
 
       <div className="flex justify-between items-center mb-8">
 
-        <div className="flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-20">
+        <div className="flex flex-col lg:flex-row lg:items-end gap-5 md:gap-8 lg:gap-20">
 
           <div>
-            <p className="text-red-500 font-semibold">
-              Today's
-            </p>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-3 sm:w-5 h-10 bg-red-500 rounded"></div>
+              <p className="text-red-500 font-semibold">
+                Today's
+              </p>
+            </div>
 
             <h2 className="text-2xl sm:text-3xl font-bold mt-2">
               Flash Sales
             </h2>
           </div>
 
-          <div className="flex items-end gap-3">
+          <div className="flex flex-wrap items-end gap-0.5 sm:gap-3">
 
             <div>
               <p className="text-xs">Days</p>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 {String(countdown.days).padStart(2, "0")}
               </h2>
             </div>
@@ -117,7 +120,7 @@ export default function FlashSale({ products = [] }) {
 
             <div>
               <p className="text-xs">Hours</p>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 {String(countdown.hours).padStart(2, "0")}
               </h2>
             </div>
@@ -126,7 +129,7 @@ export default function FlashSale({ products = [] }) {
 
             <div>
               <p className="text-xs">Minutes</p>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 {String(countdown.minutes).padStart(2, "0")}
               </h2>
             </div>
@@ -135,7 +138,7 @@ export default function FlashSale({ products = [] }) {
 
             <div>
               <p className="text-xs">Seconds</p>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 {String(countdown.seconds).padStart(2, "0")}
               </h2>
             </div>
@@ -144,16 +147,15 @@ export default function FlashSale({ products = [] }) {
 
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex justify-end gap-3">
 
           <button
             onClick={prevPage}
             disabled={page === 0}
-            className={`w-10 h-10 rounded-full flex items-center justify-center ${
-              page === 0
+            className={`w-10 h-10 rounded-full flex items-center justify-center ${page === 0
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-gray-100 hover:bg-gray-200"
-            }`}
+              }`}
           >
             <ChevronLeft />
           </button>
@@ -161,11 +163,10 @@ export default function FlashSale({ products = [] }) {
           <button
             onClick={nextPage}
             disabled={page === totalPages - 1}
-            className={`w-10 h-10 rounded-full flex items-center justify-center ${
-              page === totalPages - 1
+            className={`w-10 h-10 rounded-full flex items-center justify-center ${page === totalPages - 1
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                 : "bg-gray-100 hover:bg-gray-200"
-            }`}
+              }`}
           >
             <ChevronRight />
           </button>

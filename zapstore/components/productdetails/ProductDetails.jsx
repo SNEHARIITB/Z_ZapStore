@@ -9,6 +9,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { getProducts } from "@/redux/slices/productSlice";
 import { login } from "@/redux/slices/authSlice";
+import toast from "react-hot-toast";
 
 
 export default function ProductDetails({ id = 1 }) {
@@ -24,7 +25,8 @@ export default function ProductDetails({ id = 1 }) {
     ];
 
     const [selectedImage, setSelectedImage] = useState(images[0]);
-    const [quantity, setQuantity] = useState(2);
+    const [quantity, setQuantity] = useState(1);
+    const [selectedSize, setSelectedSize] = useState("");
 
 
 
@@ -55,9 +57,62 @@ export default function ProductDetails({ id = 1 }) {
         }
     }, [dispatch, products.length]);
 
+    const handleWishlist = () => {
+        if (!currentUser) {
+            toast.error("Please login first");
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const updatedUsers = users.map((user) => {
+            if (user.email === currentUser.email) {
+                const wishlist = user.wishlist || [];
+
+                const exists = wishlist.find(
+                    (item) => item.id === selectedProduct.id
+                );
+
+                if (exists) {
+                    toast("Product already in Wishlist", {
+                        icon: "⚠️",
+                        style: {
+                            border: "1px solid #f59e0b",
+                            padding: "16px",
+                        },
+                    });
+                } else {
+                    wishlist.push(selectedProduct);
+                    toast.success("Product added to Wishlist");
+                }
+
+                return {
+                    ...user,
+                    wishlist,
+                };
+            }
+
+            return user;
+        });
+
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+        const updatedCurrentUser = updatedUsers.find(
+            (u) => u.email === currentUser.email
+        );
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(updatedCurrentUser)
+        );
+
+        dispatch(login(updatedCurrentUser));
+    };
+
+
     const handleCart = () => {
         if (!currentUser) {
-            alert("Please login first");
+            toast.error("Please login first");
             return;
         }
 
@@ -73,14 +128,14 @@ export default function ProductDetails({ id = 1 }) {
 
                 if (exists) {
                     exists.quantity += 1;
-                    alert("Quantity Increased");
+                    toast.success("Product Quantity Increased");
                 } else {
                     cart.push({
                         ...selectedProduct,
                         quantity: 1,
                     });
 
-                    alert("Added to Cart");
+                    toast.success("Product Added to Cart.")
                 }
 
                 return {
@@ -208,20 +263,23 @@ export default function ProductDetails({ id = 1 }) {
 
                             {/* Sizes */}
                             {selectedProduct.category?.includes("clothing") && (
-                                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-7">
-                                    <h4 className="font-medium">Size:</h4>
+                                <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-7">
+                                    <h4 className="font-medium mr-2">Size:</h4>
 
-                                    {["XS", "S", "M", "L", "XL"].map((size) => (
-                                        <button
-                                            key={size}
-                                            className={`border rounded px-3 py-1 text-sm ${size === "M"
-                                                ? "bg-red-500 text-white border-red-500"
-                                                : "hover:border-red-500"
-                                                }`}
-                                        >
-                                            {size}
-                                        </button>
-                                    ))}
+                                    {/* <div className="grid grid-cols-5 gap-3"> */}
+                                        {["XS", "S", "M", "L", "XL"].map((size) => (
+                                            <button
+                                                key={size}
+                                                onClick={() => setSelectedSize(size)}
+                                                className={`border rounded px-3 py-1 text-sm transition ${selectedSize === size
+                                                        ? "bg-red-500 text-white border-red-500"
+                                                        : "hover:border-red-500"
+                                                    }`}
+                                            >
+                                                {size}
+                                            </button>
+                                        ))}
+                                    {/* </div> */}
                                 </div>
                             )}
 
@@ -261,7 +319,9 @@ export default function ProductDetails({ id = 1 }) {
                                     </button>
                                 </Link>
 
-                                <button className="p-2 border rounded w-12 h-12 flex items-center justify-center">
+                                <button
+                                    onClick={handleWishlist}
+                                    className="p-2 border rounded-4xl w-12 h-12 flex items-center justify-center hover:bg-red-500 hover:text-white">
                                     <Heart size={20} />
                                 </button>
 

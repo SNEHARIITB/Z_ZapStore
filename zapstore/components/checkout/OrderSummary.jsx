@@ -1,12 +1,20 @@
 "use client";
 
-import { useAppSelector } from "@/redux/hooks";
-import React from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { login } from "@/redux/slices/authSlice";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import React, { useState } from "react";
 
 export default function OrderSummary() {
 
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const { currentUser } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
 
 
   const cartedProducts = currentUser?.cart || [];
@@ -16,6 +24,47 @@ export default function OrderSummary() {
     (sum, item) => sum + item.price * (item.quantity || 1),
     0
   );
+
+  const handlePlaceOrder = () => {
+    if (!currentUser?.cart?.length) {
+      toast.error("Your cart is empty. Please add products first.", {
+        duration: 2000,
+      });
+      return;
+    }
+    const toastId = toast.loading("Placing your order...");
+
+    toast.dismiss(toastId);
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const updatedUsers = users.map((user) =>
+      user.email === currentUser.email
+        ? { ...user, cart: [] }
+        : user
+    );
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    // Update current user
+    const updatedCurrentUser = {
+      ...currentUser,
+      cart: [],
+    };
+
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify(updatedCurrentUser)
+    );
+
+    // Update Redux
+    dispatch(login(updatedCurrentUser));
+
+    toast.success("Order placed successfully!");
+
+    // Show success modal
+    setShowSuccess(true);
+  };
 
   return (
     <div className="w-full lg:max-w-md">
@@ -97,7 +146,7 @@ export default function OrderSummary() {
               alt="Nagad"
               className="h-5"
             />*/}
-          </div> 
+          </div>
         </label>
 
         <label className="flex items-center gap-3 cursor-pointer">
@@ -124,9 +173,40 @@ export default function OrderSummary() {
       </div>
 
       {/* Place Order */}
-      <button className="mt-8 w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-10 py-3 rounded-md">
+      <button className="mt-8 w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-10 py-3 rounded-md"
+        onClick={handlePlaceOrder}
+      >
         Place Order
       </button>
+
+
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 w-[80%] max-w-md text-center">
+
+            <div className="text-4xl md:text-6xl mb-4">✅</div>
+
+            <h2 className="text-2xl font-semibold">
+              Order Placed Successfully
+            </h2>
+
+            <p className="text-gray-500 mt-3">
+              Thank you for shopping with ZapStore.
+            </p>
+
+            <button
+              onClick={() => {
+                setShowSuccess(false)
+                router.push("/home");
+              }}
+              className="mt-6 bg-red-500 text-white px-8 py-3 rounded"
+            >
+              OK
+            </button>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }

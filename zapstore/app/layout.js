@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import Providers from "./Providers";
-
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "My App",
@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
 
         <Providers>
           {children}
+          <Toaster position="top-right" />
         </Providers>
 
         </body>

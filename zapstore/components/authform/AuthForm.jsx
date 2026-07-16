@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import toast from "react-hot-toast";
 import { login } from "@/redux/slices/authSlice";
 
 export default function AuthForm({ type = "login" }) {
@@ -29,7 +29,7 @@ export default function AuthForm({ type = "login" }) {
         );
 
         if (alreadyExists) {
-            alert("Email already Exists")
+            toast.error("Email already Exists")
             return;
         }
 
@@ -44,11 +44,11 @@ export default function AuthForm({ type = "login" }) {
 
         localStorage.setItem("users", JSON.stringify(users));
 
-        localStorage.setItem("currentUser", JSON.stringify(formData))
+        localStorage.setItem("currentUser", JSON.stringify(newUser))
 
         dispatch(login(newUser));
 
-        alert("Account Created Sucessfully")
+        toast.success("Account Created Sucessfully")
 
         router.replace("/home");
     }
@@ -63,7 +63,7 @@ export default function AuthForm({ type = "login" }) {
         );
 
         if (!currentuser) {
-            alert("Invalid Credentials");
+            toast.error("Invalid Credentials");
             return;
         }
 
@@ -71,7 +71,7 @@ export default function AuthForm({ type = "login" }) {
 
         dispatch(login(currentuser));
 
-        alert("Login Successful");
+        toast.success("Login Successful");
 
         router.replace("/home");
 

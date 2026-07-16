@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { login, logout } from '@/redux/slices/authSlice';
 import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
 
 
 
@@ -29,6 +30,7 @@ function NavBarComp({ currentUser }) {
         localStorage.removeItem("currentUser");
 
         dispatch(logout());
+        toast.success("LoggedOut Sucessfully")
 
         router.replace("/login");
     };

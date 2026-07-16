@@ -43,8 +43,10 @@ export default function page() {
 
                 <div className="flex justify-between items-center mb-8">
 
-                    <div>
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-5 h-10 bg-red-500 rounded"></div>
                         <h2 className="text-xl sm:text-md mt-2">
+                            
                             Wishlist({wishedProducts.length})
                         </h2>
                     </div>
@@ -85,11 +87,13 @@ export default function page() {
 
                 <div className="flex justify-between items-center mb-8">
 
-                    <div>
-                        <h2 className="text-2xl sm:text-3xl font-semibold mt-2">
-                            Just For You
-                        </h2>
-                    </div>
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="w-5 h-10 bg-red-500 rounded"></div>
+
+                    <h2 className="text-2xl font-semibold">
+                        Just For You
+                    </h2>
+                </div>
 
                     <div className="flex gap-3">
 

@@ -56,13 +56,15 @@ export default function ExploreOurProducts({ products = [] }) {
     <section className="px-5 sm:px-8 lg:px-20 py-10">
 
       {/* Heading */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 ">
 
         <div>
-          <p className="text-red-500 font-semibold">
-            Our Products
-          </p>
-
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-3 sm:w-5 h-10 bg-red-500 rounded"></div>
+            <p className="text-red-500 font-semibold">
+              Our Products
+            </p>
+          </div>
           <h2 className="text-2xl sm:text-3xl font-bold mt-2">
             Explore Our Products
           </h2>
@@ -74,10 +76,9 @@ export default function ExploreOurProducts({ products = [] }) {
             onClick={prevPage}
             disabled={page === 0}
             className={`w-10 h-10 rounded-full flex items-center justify-center transition
-              ${
-                page === 0
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-100 hover:bg-gray-200"
+              ${page === 0
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-gray-100 hover:bg-gray-200"
               }`}
           >
             <ChevronLeft size={20} />
@@ -87,10 +88,9 @@ export default function ExploreOurProducts({ products = [] }) {
             onClick={nextPage}
             disabled={page === totalPages - 1}
             className={`w-10 h-10 rounded-full flex items-center justify-center transition
-              ${
-                page === totalPages - 1
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-100 hover:bg-gray-200"
+              ${page === totalPages - 1
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-gray-100 hover:bg-gray-200"
               }`}
           >
             <ChevronRight size={20} />
