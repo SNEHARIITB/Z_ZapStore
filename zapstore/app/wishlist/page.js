@@ -8,6 +8,7 @@ import Saleoffer from '@/components/saleoffer/Saleoffer'
 import { getProducts } from '@/redux/slices/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import React, { useEffect, useState } from 'react'
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 export default function page() {
 
@@ -33,7 +34,7 @@ export default function page() {
 
 
     return (
-        <div>
+        <ProtectedRoute>
 
             <Saleoffer />
 
@@ -127,7 +128,7 @@ export default function page() {
 
             <Footer />
 
-        </div>
+        </ProtectedRoute>
     )
 }
 

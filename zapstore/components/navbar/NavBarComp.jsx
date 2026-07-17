@@ -228,9 +228,48 @@ function NavBarComp({ currentUser }) {
                             About
                         </Link>
 
-                        <Link href="/signup" className="block">
-                            Sign Up
-                        </Link>
+                        {!currentUser ? (
+                            <Link href="/signup" className="block">
+                                Sign Up
+                            </Link>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/wishlist"
+                                    className="flex items-center justify-between"
+                                >
+                                    <span>Wishlist</span>
+                                    {wishlistCount > 0 && (
+                                        <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                            {wishlistCount}
+                                        </span>
+                                    )}
+                                </Link>
+
+                                <Link
+                                    href="/cart"
+                                    className="flex items-center justify-between"
+                                >
+                                    <span>Cart</span>
+                                    {cartCount > 0 && (
+                                        <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                            {cartCount}
+                                        </span>
+                                    )}
+                                </Link>
+
+                                <Link href="/account" className="block">
+                                    My Account
+                                </Link>
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="block text-left w-full text-red-500"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        )}
 
                         <div className="relative">
                             <Search
@@ -240,7 +279,7 @@ function NavBarComp({ currentUser }) {
 
                             <input
                                 type="text"
-                                placeholder="What are you looking ?"
+                                placeholder="What are you looking for?"
                                 className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:border-blue-500 focus:outline-none"
                             />
                         </div>

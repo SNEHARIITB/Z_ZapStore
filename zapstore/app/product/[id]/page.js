@@ -1,5 +1,6 @@
 "use client";
 
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Footer from "@/components/footer/Footer";
 import NavBarComp from "@/components/navbar/NavBarComp";
 import ProductDetails from "@/components/productdetails/ProductDetails";
@@ -14,7 +15,7 @@ export default function Page() {
   const id = params.id;
 
   return (
-    <>
+    <ProtectedRoute>
       <Saleoffer />
 
       <NavBarComp currentUser={currentUser} />
@@ -26,6 +27,6 @@ export default function Page() {
       <ProductDetails id={id} />
 
       <Footer />
-    </>
+    </ProtectedRoute>
   );
 }

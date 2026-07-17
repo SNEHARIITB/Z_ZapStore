@@ -89,7 +89,7 @@ export default function ProfilePage({currentUser}) {
 
                 <input
                   type="text"
-                  placeholder="Md"
+                  placeholder="Enter First Name"
                   className="w-full bg-gray-100 rounded px-4 py-3 outline-none"
                 />
               </div>
@@ -101,7 +101,7 @@ export default function ProfilePage({currentUser}) {
 
                 <input
                   type="text"
-                  placeholder="Rimel"
+                  placeholder="Enter Last Name"
                   className="w-full bg-gray-100 rounded px-4 py-3 outline-none"
                 />
               </div>
@@ -118,7 +118,7 @@ export default function ProfilePage({currentUser}) {
 
                 <input
                   type="email"
-                  placeholder="rimel1111@gmail.com"
+                  placeholder="example123@gmail.com"
                   className="w-full bg-gray-100 rounded px-4 py-3 outline-none"
                 />
               </div>

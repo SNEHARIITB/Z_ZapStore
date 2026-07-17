@@ -127,12 +127,12 @@ export default function ProductDetails({ id = 1 }) {
                 );
 
                 if (exists) {
-                    exists.quantity += 1;
+                    exists.quantity = quantity;
                     toast.success("Product Quantity Increased");
                 } else {
                     cart.push({
                         ...selectedProduct,
-                        quantity: 1,
+                        quantity,
                     });
 
                     toast.success("Product Added to Cart.")
@@ -160,6 +160,20 @@ export default function ProductDetails({ id = 1 }) {
 
         dispatch(login(updatedCurrentUser));
     };
+
+    useEffect(() => {
+    if (!currentUser || !selectedProduct) return;
+
+    const cartItem = currentUser.cart?.find(
+        (item) => item.id === selectedProduct.id
+    );
+
+    if (cartItem) {
+        setQuantity(cartItem.quantity);
+    } else {
+        setQuantity(1);
+    }
+}, [currentUser, selectedProduct]);
 
 
     if (loading || !selectedProduct) {
@@ -290,7 +304,7 @@ export default function ProductDetails({ id = 1 }) {
 
                                     <button
                                         onClick={() =>
-                                            setQuantity(quantity > 1 ? quantity - 1 : 1)
+                                            setQuantity((prev) => Math.max(1,prev - 1))
                                         }
                                         className="w-12 p-1 h-12 flex items-center justify-center hover:bg-gray-100"
                                     >
@@ -302,7 +316,7 @@ export default function ProductDetails({ id = 1 }) {
                                     </div>
 
                                     <button
-                                        onClick={() => setQuantity(quantity + 1)}
+                                        onClick={() => setQuantity((prev) => prev + 1)}
                                         className="w-12 h-12 p-1 bg-red-500 text-white flex items-center justify-center"
                                     >
                                         <Plus size={18} />

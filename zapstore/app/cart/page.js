@@ -10,6 +10,7 @@ import React, { useEffect } from 'react'
 import { login } from "@/redux/slices/authSlice";
 import { IoSendOutline } from 'react-icons/io5';
 import { Trash2 } from 'lucide-react';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 export default function page() {
 
@@ -20,14 +21,6 @@ export default function page() {
 
     const dispatch = useAppDispatch();
 
-    // const { products, loading } = useAppSelector(
-    //     (state) => {
-    //         return state.product
-    //     }
-    // );
-    // useEffect(() => {
-    //     console.log(cartedProducts);
-    // }, [cartedProducts, cartedProducts.quantity]);
 
     useEffect(() => {
         dispatch(getProducts());
@@ -113,7 +106,7 @@ export default function page() {
 
     const total = subtotal;
     return (
-        <div>
+        <ProtectedRoute>
             <Saleoffer />
 
             <NavBarComp currentUser={currentUser} />
@@ -256,6 +249,6 @@ export default function page() {
             </div>
 
             <Footer />
-        </div>
+        </ProtectedRoute>
     )
 }

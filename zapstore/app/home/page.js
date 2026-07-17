@@ -20,6 +20,7 @@ import ExploreOurProducts from '@/components/HomeComponents/exploreproducts/Expl
 import MusicExpe from '@/components/HomeComponents/musicexpe/MusicExpe';
 import Services from '@/components/HomeComponents/services/Services';
 import { login } from '@/redux/slices/authSlice';
+import NewArrival from '@/components/HomeComponents/newarrival/NewArrival';
 
 export default function page() {
 
@@ -173,6 +174,8 @@ export default function page() {
             <MusicExpe />
 
             <ExploreOurProducts products={products} />
+
+            <NewArrival />
 
             <Services />
 

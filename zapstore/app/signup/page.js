@@ -5,14 +5,28 @@ import Footer from '@/components/footer/Footer'
 import NavBarComp from '@/components/navbar/NavBarComp'
 import Saleoffer from '@/components/saleoffer/Saleoffer'
 import Image from 'next/image'
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import loginimg from "@/assets/loginpage/loginimage.png";
 import AuthForm from '@/components/authform/AuthForm';
+import { useRouter } from "next/navigation";
+import GuestRoute from '@/components/auth/GuestRoute.jsx';
 
 export default function page() {
+    const router = useRouter();
+
+
+    useEffect(() => {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (currentUser) {
+            router.replace("/home");
+        }
+    }, [router]);
+
+
     return (
-        <div>
+        <GuestRoute>
 
             <Saleoffer />
 
@@ -35,6 +49,6 @@ export default function page() {
 
             <Footer />
 
-        </div>
+        </GuestRoute>
     )
 }

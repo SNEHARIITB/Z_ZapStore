@@ -1,21 +1,29 @@
-"use client"
+"use client";
 
-import Footer from '@/components/footer/Footer'
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-import NavBarComp from '@/components/navbar/NavBarComp'
-import Saleoffer from '@/components/saleoffer/Saleoffer'
-import Image from 'next/image'
-import React from 'react';
-
+import Footer from "@/components/footer/Footer";
+import NavBarComp from "@/components/navbar/NavBarComp";
+import Saleoffer from "@/components/saleoffer/Saleoffer";
+import Image from "next/image";
 import loginimg from "@/assets/loginpage/loginimage.png";
-import AuthForm from '@/components/authform/AuthForm';
+import AuthForm from "@/components/authform/AuthForm";
+import GuestRoute from "@/components/auth/GuestRoute";
 
+export default function Page() {
+  const router = useRouter();
 
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-export default function page() {
+    if (currentUser) {
+      router.replace("/home");
+    }
+  }, [router]);
+
   return (
-    <div>
-
+    <GuestRoute>
       <Saleoffer />
 
       <NavBarComp />
@@ -34,9 +42,7 @@ export default function page() {
         </div>
       </div>
 
-
       <Footer />
-
-    </div>
-  )
+    </GuestRoute>
+  );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import Footer from '@/components/footer/Footer'
 import NavBarComp from '@/components/navbar/NavBarComp'
 import ProfilePage from '@/components/profilepage/ProfilePage'
@@ -13,7 +14,7 @@ export default function page() {
   const { currentUser } = useAppSelector((state) => state.auth);
 
   return (
-    <div>
+    <ProtectedRoute>
         <Saleoffer />
 
         <NavBarComp currentUser={currentUser}/>
@@ -22,7 +23,7 @@ export default function page() {
 
         <Footer />
       
-    </div>
+    </ProtectedRoute>
   )
 }
 
